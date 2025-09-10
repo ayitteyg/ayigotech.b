@@ -41,6 +41,12 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 if not SECRET_KEY:
     raise ValueError("DJANGO_SECRET_KEY environment variable is not set")
 
+
+CLOUDINARY_STORAGE  = os.getenv("CLOUDINARY_URL")
+if not CLOUDINARY_STORAGE :
+    raise ValueError("CLOUDINARY_URL environment variable is not set")
+
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
@@ -67,6 +73,8 @@ INSTALLED_APPS = [
      'rest_framework',
     'corsheaders',
     'projects', 
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
@@ -224,3 +232,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/') # 'media' folder contains my media
 MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

@@ -25,6 +25,7 @@ class ProjectScreenshot(models.Model):
         on_delete=models.CASCADE
     )
     image = models.ImageField(upload_to="projects/screenshots/")
+    demo_video = models.FileField(upload_to="projects/videos/", blank=True, null=True)
     order = models.PositiveIntegerField(default=0)
 
     class Meta:
