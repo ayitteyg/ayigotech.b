@@ -42,8 +42,8 @@ if not SECRET_KEY:
     raise ValueError("DJANGO_SECRET_KEY environment variable is not set")
 
 
-CLOUDINARY_STORAGE  = os.getenv("CLOUDINARY_URL")
-if not CLOUDINARY_STORAGE :
+CLOUDINARY_URL  = os.getenv("CLOUDINARY_URL")
+if not CLOUDINARY_URL :
     raise ValueError("CLOUDINARY_URL environment variable is not set")
 
 
@@ -228,8 +228,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 #media files
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/') # 'media' folder contains my media
-MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media/') # 'media' folder contains my media
+# MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
