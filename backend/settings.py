@@ -49,7 +49,7 @@ DEBUG = False
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    "ayigotech.b.onrender.com",
+    "ayigotech-b.onrender.com",
     '192.168.0.175',
     '192.168.117.136'
 ]
