@@ -1,4 +1,6 @@
 from django.db import models
+from cloudinary_storage.storage import MediaCloudinaryStorage
+
 
 class Project(models.Model):
     title = models.CharField(max_length=100)
@@ -6,7 +8,8 @@ class Project(models.Model):
     tech_stack = models.JSONField(default=list, blank=True)  # works with SQLite & Postgres
     github_link = models.URLField()
     demo_link = models.URLField(blank=True, null=True)
-    image = models.ImageField(upload_to="projects/")
+    # image = models.ImageField(upload_to="projects/")
+    image = models.ImageField(storage=MediaCloudinaryStorage(), upload_to="projects/")
     is_mobile_app = models.BooleanField(default=False)
     created_at = models.DateField(auto_now_add=True)
 
@@ -24,8 +27,12 @@ class ProjectScreenshot(models.Model):
         related_name="screenshots",
         on_delete=models.CASCADE
     )
-    image = models.ImageField(upload_to="projects/screenshots/")
-    demo_video = models.FileField(upload_to="projects/videos/", blank=True, null=True)
+    # image = models.ImageField(upload_to="projects/screenshots/")
+    # demo_video = models.FileField(upload_to="projects/videos/", blank=True, null=True)
+    
+    image = models.ImageField(storage=MediaCloudinaryStorage(), upload_to="projects/screenshots/")
+    demo_video = models.FileField(storage=MediaCloudinaryStorage(), upload_to="projects/videos/", blank=True, null=True)
+    
     order = models.PositiveIntegerField(default=0)
 
     class Meta:

@@ -73,8 +73,8 @@ INSTALLED_APPS = [
      'rest_framework',
     'corsheaders',
     'projects', 
-    'cloudinary',
-    'cloudinary_storage',
+    # 'cloudinary',
+    # 'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
@@ -110,6 +110,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
+
+# Optional but safer
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": "dxztwthlw",
+    "API_KEY": "571787986273496",
+    "API_SECRET": "AJesBIzvrIIEyWllHKgvvRzeF3g",
+}
 
 # Allow only your frontend (don't use '*')
 CORS_ALLOWED_ORIGINS = [
@@ -233,4 +240,7 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+INSTALLED_APPS += ["cloudinary", "cloudinary_storage"]
+
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
