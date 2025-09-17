@@ -119,11 +119,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 
 # Optional but safer
-CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": "dxztwthlw",
-    "API_KEY": "571787986273496",
-    "API_SECRET": "AJesBIzvrIIEyWllHKgvvRzeF3g",
-}
+
 
 # Allow only your frontend (don't use '*')
 CORS_ALLOWED_ORIGINS = [
@@ -170,6 +166,8 @@ CORS_ALLOW_METHODS = [
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
@@ -177,6 +175,12 @@ CORS_ALLOW_METHODS = [
 #     }
 # }
 
+
+
+SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
+DEFAULT_FROM_EMAIL = "noreply@ayigotech.live"
+EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+SENDGRID_SANDBOX_MODE_IN_DEBUG = False
 
 
 DATABASES = {}
@@ -233,6 +237,7 @@ USE_I18N = True
 USE_TZ = True
 
 
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 STATIC_URL = 'static/'
@@ -248,5 +253,6 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+
+

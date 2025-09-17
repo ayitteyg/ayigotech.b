@@ -40,3 +40,18 @@ class ProjectScreenshot(models.Model):
 
     def __str__(self):
         return f"{self.project.title} Screenshot {self.order}"
+
+
+
+
+class ContactMessage(models.Model):
+    """
+    Stores messages submitted via the portfolio contact form.
+    """
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Message from {self.name} <{self.email}>"

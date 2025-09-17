@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Project, ProjectScreenshot
+from .models import ContactMessage, Project, ProjectScreenshot
 
 class ProjectScreenshotInline(admin.TabularInline):  # or StackedInline if you prefer
     model = ProjectScreenshot
@@ -16,3 +16,12 @@ class ProjectAdmin(admin.ModelAdmin):
     readonly_fields = ("created_at",)
 
     inlines = [ProjectScreenshotInline]
+
+
+
+
+@admin.register(ContactMessage)
+class ContactMessageAdmin(admin.ModelAdmin):
+    list_display = ("name", "message","email", "created_at")
+    search_fields = ("name", "email", "message")
+    ordering = ("-created_at",)

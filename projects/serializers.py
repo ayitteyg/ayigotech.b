@@ -15,7 +15,7 @@ class ProjectScreenshotSerializer(serializers.ModelSerializer):
 
     def get_demo_video(self, obj):
         return obj.demo_video.url if obj.demo_video else None    
-        
+    
         
 
 class ProjectSerializer(serializers.ModelSerializer):
@@ -31,3 +31,15 @@ class ProjectSerializer(serializers.ModelSerializer):
         if obj.image:
             return obj.image.url  # Always returns the Cloudinary URL
         return None
+
+
+
+
+
+
+from .models import ContactMessage
+class ContactMessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ContactMessage
+        fields = ["id", "name", "email", "message", "created_at"]
+        read_only_fields = ["id", "created_at"]
