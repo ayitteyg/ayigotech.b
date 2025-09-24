@@ -55,7 +55,7 @@ if CLOUDINARY_URL:
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 
 
@@ -120,6 +120,13 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 # Optional but safer
 
+
+# Trust frontend for CSRF
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:4200",
+    "http://127.0.0.1:4200",
+    "https://ayigotech.onrender.com"
+]
 
 # Allow only your frontend (don't use '*')
 CORS_ALLOWED_ORIGINS = [

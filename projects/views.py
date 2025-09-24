@@ -8,6 +8,11 @@ from .serializers import ProjectSerializer
 from rest_framework import generics, permissions
 from .models import ContactMessage
 from .serializers import ContactMessageSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 
 from sendgrid import SendGridAPIClient
@@ -56,7 +61,8 @@ class ContactMessageCreateView_0(generics.CreateAPIView):
 
 
 
-class ContactMessageViewSet(viewsets.ModelViewSet):
+@method_decorator(csrf_exempt, name="dispatch")
+class ContactMessageViewSet_1(viewsets.ModelViewSet):
     queryset = ContactMessage.objects.all().order_by('-created_at')
     serializer_class = ContactMessageSerializer
 
@@ -115,3 +121,73 @@ class ContactMessageViewSet(viewsets.ModelViewSet):
             {"detail": "Message sent successfully, and confirmation email delivered."},
             status=status.HTTP_201_CREATED
         )
+        
+
+
+
+@method_decorator(csrf_exempt, name="dispatch")
+class ContactMessageAPIView(APIView):
+    """
+    Handles contact form submissions:
+    - Saves the message in DB
+    - Sends email notification to admin
+    - Sends feedback email to sender
+    """
+
+    def post(self, request):
+        serializer = ContactMessageSerializer(data=request.data)
+        if serializer.is_valid():
+            message = serializer.save()
+
+            # Admin notification
+            admin_email = settings.DEFAULT_FROM_EMAIL
+            subject_admin = f"New Contact Message from {message.name}"
+            content_admin = f"""
+            You have received a new message:
+
+            Name: {message.name}
+            Email: {message.email}
+            Message:
+            {message.message}
+            """
+            admin_mail = Mail(
+                from_email=admin_email,
+                to_emails=admin_email,
+                subject=subject_admin,
+                plain_text_content=content_admin,
+            )
+
+            # User feedback
+            subject_user = "Thank you for contacting ayigotech"
+            content_user = f"""
+            Hi {message.name},
+
+            Thank you for reaching out to ayigotech. Your message is well received:
+
+            "{message.message}"
+
+            Kindly expect a response ASAP.
+
+            Best regards,  
+            ayigotech.
+            """
+            user_mail = Mail(
+                from_email=admin_email,
+                to_emails=message.email,
+                subject=subject_user,
+                plain_text_content=content_user,
+            )
+
+            try:
+                sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
+                sg.send(admin_mail)  # send to admin
+                sg.send(user_mail)   # send to sender
+            except Exception as e:
+                print(f"SendGrid error: {e}")
+
+            return Response(
+                {"detail": "Message sent successfully, and confirmation email delivered."},
+                status=status.HTTP_201_CREATED,
+            )
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
